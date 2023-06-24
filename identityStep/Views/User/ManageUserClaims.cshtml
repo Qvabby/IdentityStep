@@ -1,0 +1,27 @@
+﻿@model UserClaimViewModel
+
+<form method="post">
+    <input hidden asp-for="@Model.UserId" />
+    <div class="card">
+        <div class="card-header">
+            <h2>Manage User Claims. / Permissions.</h2>
+        </div>
+        <div class="card-body">
+            @for (int i = 0; i < Model.Claims.Count; i++)
+            {
+                <div class="m-2 form-check">
+                    <input asp-for="@Model.Claims[i].Claimtype" hidden/>
+                    <input asp-for="@Model.Claims[i].isSelected" class="form-check-input"/>
+                    <label class="form-check-label" asp-for="@Model.Claims[i].isSelected">
+                        @Model.Claims[i].Claimtype
+                    </label>
+                </div>
+            }
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="card-footer">
+                <input type="submit" value="Update" class="btn btn-outline-success" />
+                <a asp-action="Index" class="btn btn-outline-warning"> Back To Users </a>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Home Page";
+    bool result = false;
+    if (User.Identity.IsAuthenticated)
+    {
+        result = await UserManager.GetTwoFactorEnabledAsync(await UserManager.GetUserAsync(User));
+    }
+}
+<div class="text-center">
+    @if (User.Identity.IsAuthenticated && result == false)
+    {
+
+        <h1 class="display-4">
+            Welcome @UserManager.GetUserName(User)
+        </h1>
+        <a asp-action="EnableAuthenticator" asp-controller="Account" class="btn btn-danger mt-3"> Set Up Two Factor Authentication</a>
+
+
+    }
+    else if (User.Identity.IsAuthenticated && result == true)
+    {
+        <h1 class="display-4">Welcome @UserManager.GetUserName(User)</h1>
+        <a asp-action="DisableAuthenticator" asp-controller="Account" class="btn btn-danger mt-3"> Disable Two Factor Authentication</a>
+    }
+    else
+    {
+        <h1 class="display-4">Welcome</h1>
+    }
+</div>
